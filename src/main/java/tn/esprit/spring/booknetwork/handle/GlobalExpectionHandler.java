@@ -8,6 +8,7 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import tn.esprit.spring.booknetwork.exception.OperationNoPermittedException;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -94,6 +95,20 @@ public class GlobalExpectionHandler {
         exp.printStackTrace();
         return ResponseEntity
                 .status(INTERNAL_SERVER_ERROR)
+                .body(
+                        ExceptionResponse.builder()
+                                .businessErrorDescription("Internal error, please contact the admin")
+                                .error(exp.getMessage())
+                                .build()
+                );
+    }
+
+    @ExceptionHandler(OperationNoPermittedException.class)
+    public ResponseEntity<ExceptionResponse> handleException(OperationNoPermittedException exp) {
+        //log the exception
+        exp.printStackTrace();
+        return ResponseEntity
+                .status(BAD_REQUEST)
                 .body(
                         ExceptionResponse.builder()
                                 .businessErrorDescription("Internal error, please contact the admin")

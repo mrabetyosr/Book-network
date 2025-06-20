@@ -10,7 +10,7 @@ import tn.esprit.spring.booknetwork.role.Role;
 import tn.esprit.spring.booknetwork.role.RoleRepository;
 
 @SpringBootApplication
-@EnableJpaAuditing
+@EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @EnableAsync
 public class BooknetworkApplication {
 
